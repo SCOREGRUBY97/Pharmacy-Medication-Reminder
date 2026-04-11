@@ -10,17 +10,21 @@ This project is a Pharmacy Medication Reminder system that helps users remember 
 - Edit or delete reminders
 
 ## 🛠️ Technologies Used
-- HTML
-- CSS
-- JavaScript
+- Frontend: React
+- Backend: Node.js
+- Database: PostgreSQL
 
 ## ⚙️ How to Run
 1. Download or clone the repository
 2. Open the project folder
-3. Run the main file (index.html)
+3. Run the main file
 
 ## 👨‍💻 Team Members
-- Add your names here
+- Sugam Baral
+- Kartik Gupta
+- Bibek Nakhan
+- Gaurab Bhusal
+- Ho Yin , HORANCE CHeung
 
 ## 📌 Project Status
-Completed / In Progress
+In Progress
