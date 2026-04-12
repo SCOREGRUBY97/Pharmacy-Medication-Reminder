@@ -28,3 +28,11 @@ This project is a Pharmacy Medication Reminder system that helps users remember 
 
 ## 📌 Project Status
 In Progress
+## My Contribution (Database Engineer)
+
+- Designed database schema
+- Created ERD
+- Defined relationships
+- Implemented SQL tables
+- Added security measures
+- Created test cases
