@@ -1,1 +1,4 @@
-
+- Add user → success
+- Wrong login → denied
+- Add reminder → linked correctly
+- Mark medication → stored
