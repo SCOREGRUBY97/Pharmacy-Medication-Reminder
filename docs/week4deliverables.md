@@ -29,6 +29,8 @@ When triggered, the system sends a notification. The user can either confirm the
 ## Importance
 This diagram helps visualise the overall system workflow and highlights key decision points such as login validation and user response to reminders.
 
+![System Architecture Diagram](SAD.png)
+
 ---
 
 # 2. Sequence Diagram
