@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="a4bowXhRQCsf-OiFjbTL">
+    <mxGraphModel dx="2184" dy="927" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="APWgBz0iZG1eFKZRkftX-13" edge="1" parent="1" source="bqhGktKK9UyC2c9anYgR-2" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="APWgBz0iZG1eFKZRkftX-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bqhGktKK9UyC2c9anYgR-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="User" vertex="1">
+          <mxGeometry height="80" width="160" x="-800" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-14" edge="1" parent="1" source="APWgBz0iZG1eFKZRkftX-1" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="APWgBz0iZG1eFKZRkftX-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="React Frontend&lt;div&gt;(UI / Dashboard)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="-540" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-16" edge="1" parent="1" source="APWgBz0iZG1eFKZRkftX-4" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="APWgBz0iZG1eFKZRkftX-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Database&lt;div&gt;(SQL)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="-20" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Notification service&lt;div&gt;Email/SMS&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="160" x="220" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-8" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Node.js" vertex="1">
+          <mxGeometry height="150" width="140" x="-280" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-9" parent="APWgBz0iZG1eFKZRkftX-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Authentication(JWT)" vertex="1">
+          <mxGeometry height="30" width="140" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-10" parent="APWgBz0iZG1eFKZRkftX-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="API layers" vertex="1">
+          <mxGeometry height="30" width="140" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-11" parent="APWgBz0iZG1eFKZRkftX-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Schedule reminder" vertex="1">
+          <mxGeometry height="30" width="140" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-12" parent="APWgBz0iZG1eFKZRkftX-8" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" value="Notification service" vertex="1">
+          <mxGeometry height="30" width="140" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-15" edge="1" parent="1" source="APWgBz0iZG1eFKZRkftX-10" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="APWgBz0iZG1eFKZRkftX-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-17" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontSize=16;" value="Architecture diagram&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="-260" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="APWgBz0iZG1eFKZRkftX-18" edge="1" parent="1" source="APWgBz0iZG1eFKZRkftX-17" style="edgeStyle=none;curved=1;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;startSize=8;endSize=8;" target="APWgBz0iZG1eFKZRkftX-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
