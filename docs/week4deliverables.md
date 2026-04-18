@@ -1,4 +1,4 @@
-# Week 4 Diagram Context
+# Week 4 Deliverables
 
 ## Overview
 For the Pharmacy Medication Reminder System, behavioural diagrams are used to show how the system works from different perspectives. While use case diagrams explain what the system does and who interacts with it, activity, sequence, and state machine diagrams describe how the system behaves internally during those interactions.
