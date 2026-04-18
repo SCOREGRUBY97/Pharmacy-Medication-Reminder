@@ -53,6 +53,7 @@ The backend schedules reminders using the notification service. When the schedul
 ## Importance
 This diagram explains the communication between system components and the order of operations in the system.
 
+![Sequence-Diagram](Sequence-Diagram.png)
 ---
 
 # 3. State Machine Diagram
