@@ -49,12 +49,10 @@ This project aims to reduce missed doses and improve medication compliance throu
 ### Frontend
 
 * React.js
-* Tailwind CSS
 
 ### Backend
 
 * Node.js
-* Express.js
 
 ### Database
 
@@ -62,11 +60,11 @@ This project aims to reduce missed doses and improve medication compliance throu
 
 ### Authentication
 
-* JWT (JSON Web Token)
+* JWT
 
 ### Deployment
 
-* AWS, Vercel, or Railway
+* AWS
 
 ### Version Control
 
