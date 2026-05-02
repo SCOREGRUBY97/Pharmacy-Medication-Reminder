@@ -1,4 +1,4 @@
-# Week 5 — Database & API Design (Expanded)
+# Week 5 — Database & API Design
 
 ## 1. Overview
 
