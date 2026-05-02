@@ -12,7 +12,7 @@ At the same time, RESTful APIs were designed to allow smooth communication betwe
 
 ## 2. Database Design Explanation
 
-The database design follows a relational model where all entities are connected through primary keys and foreign keys. This ensures data integrity and avoids duplication.
+The database design follows a relational model where all entities are connected through primary and foreign keys. This ensures data integrity and avoids duplication.
 
 ### Key Design Decisions
 
@@ -28,9 +28,9 @@ This structure ensures that the system is flexible, scalable, and supports futur
 
 ## 3. ERD Explanation
 
-The ERD shows how different parts of the system are connected. A **User** is the central entity and connects to most of the other tables. Each user can store multiple medications, and each medication can have multiple reminders.
+The ERD shows how different parts of the system are connected. A **User** is the central entity and connects to most of the other tables.
 
-These reminders generate adherence records which track whether medicine was taken or missed.
+Each user can store multiple medications, and each medication can have multiple reminders. These reminders generate adherence records which track whether medicine was taken or missed.
 
 The diagram also includes caregiver relationships, allowing another user to monitor medication adherence. Notifications are generated from reminders, which ensures that alerts are sent correctly.
 
