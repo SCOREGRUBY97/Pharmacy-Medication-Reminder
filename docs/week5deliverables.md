@@ -33,6 +33,7 @@ The ERD shows how different parts of the system are connected. A **User** is the
 Each user can store multiple medications, and each medication can have multiple reminders. These reminders generate adherence records which track whether medicine was taken or missed.
 
 The diagram also includes caregiver relationships, allowing another user to monitor medication adherence. Notifications are generated from reminders, which ensures that alerts are sent correctly.
+![ERD Diagram](ERD.png)
 
 ### Benefits of this Design
 
