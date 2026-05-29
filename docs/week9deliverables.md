@@ -46,6 +46,12 @@ Implemented authentication features include:
 - Protected routes
 - User-specific data access
 
+![Add Medication](medication.png)
+
+It shows real time implementation and connection between frontend and backend
+
+![Add Reminder](reminder.png)
+
 Authentication ensures that users can only access their own medication information and personal records.
 
 ---
