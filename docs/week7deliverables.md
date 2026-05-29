@@ -24,3 +24,6 @@ Examples of implemented endpoints include:
 ![Backend Folder Structure](backend.png)
 
 Input validation was implemented to ensure data accuracy and security. Validations include checking required fields, email format validation, password requirements, medication dosage validation, and date/time validation for reminders. Error handling was also added to prevent invalid data from being stored in the database.
+By the end of Week 7, the backend services were successfully developed and integrated with the PostgreSQL database. The server was configured, RESTful APIs were implemented, database connectivity was established, and validation mechanisms were added to ensure secure and reliable operation of the Pharmacy Medication Reminder system.
+
+The backend repository is fully functional and supports all core features required by the application.
