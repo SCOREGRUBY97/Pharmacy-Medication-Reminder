@@ -1,73 +1,26 @@
-```markdown
 # Week 7 — Backend Development
 
-## Expected Deliverable
-Develop backend services for the Pharmacy Medication Reminder system.
+The objective of Week 7 was to develop the backend services that support the Pharmacy Medication Reminder application. The backend was built using Node.js and Express.js, which provide the server-side functionality and API management. A PostgreSQL database was used to store user accounts, medication records, reminder schedules, caregiver information, and medication history.
 
-## Overview
-The main goal of Week 7 was to build the backend part of the Pharmacy Medication Reminder web application. The backend is responsible for handling server-side logic, API requests, database connection, user data, medication records, reminder schedules, and caregiver-related information.
+The server was configured to handle incoming requests from the frontend application through RESTful APIs. Database connectivity was established using PostgreSQL drivers, allowing data to be stored, retrieved, updated, and deleted securely.
 
-The backend was developed using **Node.js** and **Express.js**. Node.js was used to run the backend server, while Express.js was used to create RESTful API routes. A **PostgreSQL database** was used to store and manage system data such as users, medications, reminders, caregiver details, and medication history.
+Several API endpoints were implemented, including user registration and login, medication management, reminder scheduling, caregiver support, and report generation. These endpoints allow the frontend to communicate with the database and perform all required operations.
 
-## Server Setup
-The backend server was set up using Express.js. The server listens for requests from the frontend and sends responses back in JSON format. Middleware was used to allow JSON data handling and communication between the frontend and backend.
-
-The server setup includes:
-- Express.js application configuration
-- JSON request handling
-- API route setup
-- Database connection configuration
-- Error handling for failed requests
-
-## Database Connection
-The backend was connected to a PostgreSQL database. The database connection allows the application to store, retrieve, update, and delete data. This connection is important because all medication reminders, user accounts, and history records need to be saved properly.
-
-The database connection was used for:
-- Storing registered users
-- Saving medication details
-- Managing reminder schedules
-- Recording medication status
-- Supporting caregiver information
-
-## Implemented APIs
-RESTful APIs were implemented to connect the frontend with the backend database. These APIs allow the system to perform different actions such as user login, registration, medication management, and reminder scheduling.
-
-Examples of implemented API endpoints include:
+Examples of implemented endpoints include:
 
 | Method | Endpoint | Description |
-|---|---|---|
-| POST | `/register` | Creates a new user account |
-| POST | `/login` | Allows users to log in securely |
-| GET | `/medications` | Retrieves medication records |
-| POST | `/medications` | Adds a new medication |
-| PUT | `/medications/:id` | Updates medication details |
-| DELETE | `/medications/:id` | Deletes a medication record |
-| GET | `/reminders` | Retrieves reminder schedules |
-| POST | `/reminders` | Creates a new medication reminder |
-| PUT | `/reminders/:id` | Updates reminder status |
-| GET | `/history` | Displays medication history and reports |
+|--------|----------|-------------|
+| POST | `/register` | Create a new user account |
+| POST | `/login` | Authenticate users |
+| GET | `/medications` | Retrieve medication records |
+| POST | `/medications` | Add a new medication |
+| PUT | `/medications/:id` | Update medication details |
+| DELETE | `/medications/:id` | Remove medication records |
+| GET | `/reminders` | Retrieve reminder schedules |
+| POST | `/reminders` | Create reminders |
 
-## Validations Implemented
-Validations were added to make sure users enter correct and complete data. This helps prevent wrong data from being saved in the database.
+![Database Connection](connection.png)
 
-The validations include:
-- Required field validation
-- Email format validation
-- Password length validation
-- Duplicate user account checking
-- Medication name validation
-- Dosage validation
-- Reminder date and time validation
-- Error messages for missing or incorrect input
+![Backend Folder Structure](backend.png)
 
-## Evidence Screenshots
-
-### Backend Folder Structure / Backend Code
-![Backend Evidence](backend.png)
-
-### Database Connection Evidence
-![Database Connection Evidence](connection.png)
-
-## Week 7 Deliverable Summary
-By the end of Week 7, the backend services were developed and connected with the database. The server was successfully set up, RESTful API endpoints were implemented, and validations were added to support safe and correct data entry. The backend is now ready to support the frontend features of the Pharmacy Medication Reminder system.
-```
+Input validation was implemented to ensure data accuracy and security. Validations include checking required fields, email format validation, password requirements, medication dosage validation, and date/time validation for reminders. Error handling was also added to prevent invalid data from being stored in the database.
