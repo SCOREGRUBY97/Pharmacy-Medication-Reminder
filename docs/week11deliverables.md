@@ -29,6 +29,9 @@ Documentation was created outlining the deployment process, required configurati
 **GitHub Repository:**  
 https://github.com/SCOREGRUBY97/Pharmacy-Medication-Reminder
 
+**vercel link:**
+https://pharmacy-medication-reminder-e6qo.vercel.app/login
+
 **Deployment Platform:**  
 https://vercel.com
 
