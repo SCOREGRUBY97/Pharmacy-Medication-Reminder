@@ -1,0 +1,21 @@
+{
+  "name": "medicare-medication-reminder-system",
+  "version": "1.0.0",
+  "description": "Pharmacy Medication Reminder System — Full Stack Monorepo",
+  "private": true,
+  "scripts": {
+    "install:all":  "npm install && npm install --prefix frontend && npm install --prefix backend",
+    "dev":          "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "start":        "concurrently \"npm run start --prefix backend\" \"npm run start --prefix frontend\"",
+    "build":        "npm run build --prefix frontend",
+    "test":         "npm run test --prefix backend",
+    "setup:db":     "psql -U postgres -d pharmacy_reminder -f backend/src/config/schema.sql",
+    "setup":        "npm run install:all && echo '✅ All packages installed. Run npm run dev to start.'"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
