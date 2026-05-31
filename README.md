@@ -132,7 +132,6 @@ This project is developed for academic purposes and is not intended for commerci
 - Kartik Gupta
 - Bibek Nakhan
 - Gaurab Bhusal
-- Ho Yin , HORANCE CHeung
 
 ## 📌 Project Status
 In Progress
