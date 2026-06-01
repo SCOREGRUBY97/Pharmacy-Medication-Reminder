@@ -509,6 +509,35 @@ function PatientCaregiver({ user }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  const showLaptopNotification = (title, message) => {
+    if (!('Notification' in window)) return;
+
+    if (Notification.permission === 'granted') {
+      new Notification(title || 'Caregiver Alert', {
+        body: message || 'You have a new caregiver alert.',
+        icon: '/favicon.ico'
+      });
+    }
+  };
+
+  const enableLaptopNotifications = async () => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support laptop notifications.');
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+
+    if (permission === 'granted') {
+      new Notification('MediCare notifications enabled', {
+        body: 'You will now receive caregiver alerts on this laptop.',
+        icon: '/favicon.ico'
+      });
+    } else {
+      alert('Notifications were not enabled. Please allow notifications in your browser settings.');
+    }
+  };
+
   useEffect(() => {
     loadData();
     const timer = setInterval(loadData, 10000);
@@ -524,7 +553,19 @@ function PatientCaregiver({ user }) {
       ]);
 
       setCaregivers(caregiversRes.data || []);
-      setAlerts((notificationsRes.data || []).filter(n => n.type === 'caregiver_alert'));
+
+      const caregiverAlerts = (notificationsRes.data || []).filter(n => n.type === 'caregiver_alert');
+      setAlerts(caregiverAlerts);
+
+      if (caregiverAlerts.length > 0) {
+        const latest = caregiverAlerts[0];
+        const lastShownId = localStorage.getItem('lastCaregiverAlertId');
+
+        if (String(latest.id) !== String(lastShownId)) {
+          showLaptopNotification(latest.title || 'Caregiver Alert', latest.message);
+          localStorage.setItem('lastCaregiverAlertId', String(latest.id));
+        }
+      }
     } catch (err) {
       setError('Failed to load caregiver information');
     } finally {
@@ -578,6 +619,13 @@ function PatientCaregiver({ user }) {
       <p style={{ color: C.mut, fontSize: 14, marginBottom: 18 }}>
         Link a caregiver to monitor your medication adherence in real-time
       </p>
+
+      <button
+        onClick={enableLaptopNotifications}
+        style={{ ...S.btnPrimary(C.pri), marginBottom: 14 }}
+      >
+        <i className="ti ti-bell" aria-hidden="true" /> Enable Laptop Notifications
+      </button>
 
       {success && (
         <div style={{ background: C.sucLt, border: `1px solid ${C.sucMd}`, borderRadius: 10, padding: '12px 16px', marginBottom: 14, color: C.suc, fontSize: 13 }}>
