@@ -34,6 +34,35 @@ export default function CaregiverApp() {
     setTimeout(() => setToast(''), 3000);
   };
 
+  const showLaptopNotification = (title, message) => {
+    if (!('Notification' in window)) return;
+
+    if (Notification.permission === 'granted') {
+      new Notification(title || 'Patient Alert', {
+        body: message || 'A patient update was received.',
+        icon: '/favicon.ico'
+      });
+    }
+  };
+
+  const enableLaptopNotifications = async () => {
+    if (!('Notification' in window)) {
+      alert('This browser does not support laptop notifications.');
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+
+    if (permission === 'granted') {
+      new Notification('MediCare caregiver notifications enabled', {
+        body: 'You will now receive patient alerts on this laptop.',
+        icon: '/favicon.ico'
+      });
+    } else {
+      alert('Notifications were not enabled. Please allow notifications in your browser settings.');
+    }
+  };
+
   const load = async (showSpinner = false) => {
     if (showSpinner) setLoading(true);
     try {
@@ -41,8 +70,20 @@ export default function CaregiverApp() {
         getMyPatients(),
         getCaregiverAlerts().catch(() => ({ data: [] })),
       ]);
+      const caregiverAlerts = a.data || [];
+
       setPatients(p.data || []);
-      setAlerts(a.data || []);
+      setAlerts(caregiverAlerts);
+
+      if (caregiverAlerts.length > 0) {
+        const latest = caregiverAlerts[0];
+        const lastShownId = localStorage.getItem('lastCaregiverLaptopAlertId');
+
+        if (String(latest.id) !== String(lastShownId)) {
+          showLaptopNotification(latest.title || 'Patient Alert', latest.message);
+          localStorage.setItem('lastCaregiverLaptopAlertId', String(latest.id));
+        }
+      }
     } catch (err) {
       showToast(err.message || 'Failed to load caregiver data', 'error');
     } finally {
@@ -104,10 +145,11 @@ export default function CaregiverApp() {
                 patients={patients}
                 refresh={() => load(false)}
                 showToast={showToast}
+                enableLaptopNotifications={enableLaptopNotifications}
               />
             );
           }
-          if (page === 'alerts') return <CaregiverAlerts alerts={alerts} />;
+          if (page === 'alerts') return <CaregiverAlerts alerts={alerts} enableLaptopNotifications={enableLaptopNotifications} />;
           if (page === 'reports') return <CaregiverReports patients={patients} showToast={showToast} />;
           if (page === 'link') {
             return <CaregiverLink setPatients={setPatients} showToast={showToast} />;
@@ -120,7 +162,7 @@ export default function CaregiverApp() {
   );
 }
 
-function CaregiverPatients({ patients, refresh, showToast }) {
+function CaregiverPatients({ patients, refresh, showToast, enableLaptopNotifications }) {
   const [selected, setSelected] = useState(null);
   const [overview, setOverview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -190,9 +232,16 @@ function CaregiverPatients({ patients, refresh, showToast }) {
 
   return (
     <div>
-      <p style={{ color: C.mut, fontSize: 14, marginBottom: 18 }}>
+      <p style={{ color: C.mut, fontSize: 14, marginBottom: 12 }}>
         Monitoring {patients.length} patients · {patients.filter((p) => parseFloat(p.adherence_pct || 0) < 60).length} need attention
       </p>
+
+      <button
+        onClick={enableLaptopNotifications}
+        style={{ ...S.btnPrimary(C.cgPri), marginBottom: 14 }}
+      >
+        <i className="ti ti-bell" aria-hidden="true" /> Enable Laptop Notifications
+      </button>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 20 }}>
         {[
@@ -419,12 +468,19 @@ function CaregiverPatients({ patients, refresh, showToast }) {
   );
 }
 
-function CaregiverAlerts({ alerts }) {
+function CaregiverAlerts({ alerts, enableLaptopNotifications }) {
   return (
     <div>
-      <p style={{ color: C.mut, fontSize: 14, marginBottom: 18 }}>
+      <p style={{ color: C.mut, fontSize: 14, marginBottom: 12 }}>
         {alerts.length} alerts received · {alerts.filter((a) => !a.is_read).length} unread
       </p>
+
+      <button
+        onClick={enableLaptopNotifications}
+        style={{ ...S.btnPrimary(C.cgPri), marginBottom: 14 }}
+      >
+        <i className="ti ti-bell" aria-hidden="true" /> Enable Laptop Notifications
+      </button>
       {alerts.length === 0 ? (
         <div style={{ ...S.card, textAlign: 'center', padding: '48px' }}>
           <i className="ti ti-bell-off" style={{ fontSize: 48, color: C.brd, display: 'block', marginBottom: 12 }} aria-hidden="true" />
