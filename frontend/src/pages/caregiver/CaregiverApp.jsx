@@ -8,6 +8,7 @@ import {
   getCaregiverAlerts,
   linkPatient,
   unlinkPatient,
+  sendPatientAlert,
 } from '../../services/api';
 
 const NAV = [
@@ -17,47 +18,6 @@ const NAV = [
   { id: 'link', icon: 'ti-user-plus', label: 'Link Patient' },
   { id: 'profile', icon: 'ti-settings', label: 'Settings' },
 ];
-
-const API_BASE = (process.env.REACT_APP_API_URL || '').replace(/\/$/, '');
-
-const getStoredToken = () => {
-  const direct =
-    localStorage.getItem('token') ||
-    localStorage.getItem('authToken') ||
-    localStorage.getItem('medicare_token');
-
-  if (direct) return direct;
-
-  try {
-    const auth = JSON.parse(localStorage.getItem('auth') || '{}');
-    if (auth?.token) return auth.token;
-  } catch {}
-
-  try {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (user?.token) return user.token;
-  } catch {}
-
-  return '';
-};
-
-const postCaregiverAlert = async ({ patient_id, reminder_id = null, message }) => {
-  const token = getStoredToken();
-  const res = await fetch(`${API_BASE}/caregiver/alert-patient`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    body: JSON.stringify({ patient_id, reminder_id, message }),
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data?.error || data?.message || 'Failed to send message to patient');
-  }
-  return data;
-};
 
 export default function CaregiverApp() {
   const { user } = useAuth();
@@ -200,7 +160,7 @@ function CaregiverPatients({ patients, refresh, showToast }) {
 
     setSending(true);
     try {
-      await postCaregiverAlert({
+      await sendPatientAlert({
         patient_id: selected.id,
         reminder_id: reminderId,
         message: finalMessage,
