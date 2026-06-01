@@ -55,14 +55,32 @@ export const markNotifRead     = (id)    => API.patch(`/notifications/${id}/read
 export const markAllRead       = ()      => API.patch('/notifications/read-all');
 
 // ─── CAREGIVER ───────────────────────────────────────────────
-export const getMyPatients      = ()     => API.get('/caregiver/patients');
-export const getPatientOverview = (id)   => API.get(`/caregiver/patients/${id}/overview`);
-export const getCaregiverAlerts = ()     => API.get('/caregiver/alerts');
-export const linkPatient        = (d)    => API.post('/caregiver/link', d);
-export const unlinkPatient      = (id)   => API.delete(`/caregiver/link/${id}`);
-export const getMyCaregivers    = ()     => API.get('/patient/caregivers');
-export const linkCaregiver      = (d)    => API.post('/patient/link-caregiver', d);
-export const unlinkCaregiver    = (id)   => API.delete(`/patient/link-caregiver/${id}`);
+export const getMyPatients = () =>
+  API.get('/caregiver/patients');
+
+export const getPatientOverview = (id) =>
+  API.get(`/caregiver/patients/${id}/overview`);
+
+export const getCaregiverAlerts = () =>
+  API.get('/caregiver/alerts');
+
+export const linkPatient = (d) =>
+  API.post('/caregiver/link', d);
+
+export const sendPatientAlert = (d) =>
+  API.post('/caregiver/alert-patient', d);
+
+export const unlinkPatient = (id) =>
+  API.delete(`/caregiver/link/${id}`);
+
+export const getMyCaregivers = () =>
+  API.get('/patient/caregivers');
+
+export const linkCaregiver = (d) =>
+  API.post('/patient/link-caregiver', d);
+
+export const unlinkCaregiver = (id) =>
+  API.delete(`/patient/link-caregiver/${id}`);
 
 // ─── ADMIN ───────────────────────────────────────────────────
 export const getAdminStats      = ()     => API.get('/admin/stats');
