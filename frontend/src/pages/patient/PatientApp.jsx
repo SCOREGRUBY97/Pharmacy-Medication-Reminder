@@ -501,57 +501,83 @@ function PatientHistory({ hist, stats }) {
 // ─── CAREGIVER PAGE ──────────────────────────────────────────
 function PatientCaregiver({ user }) {
   const [caregivers, setCaregivers] = useState([]);
-  const [alerts, setAlerts]         = useState([]);
-  const [form, setForm]             = useState({ caregiver_email: '', relationship: '' });
-  const [loading, setLoading]       = useState(true);
-  const [linking, setLinking]       = useState(false);
-  const [showForm, setShowForm]     = useState(false);
-  const [error, setError]           = useState('');
-  const [success, setSuccess]       = useState('');
+  const [alerts, setAlerts] = useState([]);
+  const [form, setForm] = useState({ caregiver_email: '', relationship: '' });
+  const [loading, setLoading] = useState(true);
+  const [linking, setLinking] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     loadData();
+    const timer = setInterval(loadData, 10000);
+    return () => clearInterval(timer);
   }, []);
 
   const loadData = async () => {
     setLoading(true);
     try {
-      const [n, c] = await Promise.all([getNotifications(), getMyCaregivers().catch(() => ({ data: [] }))]);
-      setAlerts(n.data || []);
-      setCaregivers(c.data || []);
-    } catch {}
-    finally { setLoading(false); }
+      const [notificationsRes, caregiversRes] = await Promise.all([
+        getNotifications(),
+        getMyCaregivers().catch(() => ({ data: [] }))
+      ]);
+
+      setCaregivers(caregiversRes.data || []);
+      setAlerts((notificationsRes.data || []).filter(n => n.type === 'caregiver_alert'));
+    } catch (err) {
+      setError('Failed to load caregiver information');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const linkCaregiver = async () => {
-    if (!form.caregiver_email) { setError('Please enter caregiver email'); return; }
-    setLinking(true); setError('');
+    if (!form.caregiver_email) {
+      setError('Please enter caregiver email');
+      return;
+    }
+
+    setLinking(true);
+    setError('');
+    setSuccess('');
+
     try {
-      await apiLinkCaregiver({ caregiver_email: form.caregiver_email, relationship: form.relationship || 'Caregiver' });
-      setSuccess('Caregiver linked successfully! They can now monitor your medications.');
+      await apiLinkCaregiver({
+        caregiver_email: form.caregiver_email,
+        relationship: form.relationship || 'Caregiver'
+      });
+
+      setSuccess('Caregiver linked successfully!');
       setShowForm(false);
       setForm({ caregiver_email: '', relationship: '' });
       loadData();
     } catch (err) {
       setError(err.message || 'Failed to link caregiver. Make sure they have a caregiver account.');
-    } finally { setLinking(false); }
+    } finally {
+      setLinking(false);
+    }
   };
 
   const timeAgo = (d) => {
     const diff = Date.now() - new Date(d).getTime();
-    const m = Math.floor(diff/60000);
+    const m = Math.floor(diff / 60000);
     if (m < 1) return 'just now';
     if (m < 60) return m + 'm ago';
-    const h = Math.floor(m/60);
+    const h = Math.floor(m / 60);
     if (h < 24) return h + 'h ago';
-    return Math.floor(h/24) + 'd ago';
+    return Math.floor(h / 24) + 'd ago';
   };
 
-  if (loading) return <div style={{ textAlign: 'center', padding: 40, color: C.mut }}>Loading...</div>;
+  if (loading) {
+    return <div style={{ textAlign: 'center', padding: 40, color: C.mut }}>Loading...</div>;
+  }
 
   return (
     <div>
-      <p style={{ color: C.mut, fontSize: 14, marginBottom: 18 }}>Link a caregiver to monitor your medication adherence in real-time</p>
+      <p style={{ color: C.mut, fontSize: 14, marginBottom: 18 }}>
+        Link a caregiver to monitor your medication adherence in real-time
+      </p>
 
       {success && (
         <div style={{ background: C.sucLt, border: `1px solid ${C.sucMd}`, borderRadius: 10, padding: '12px 16px', marginBottom: 14, color: C.suc, fontSize: 13 }}>
@@ -559,9 +585,15 @@ function PatientCaregiver({ user }) {
         </div>
       )}
 
+      {error && (
+        <div style={{ background: C.danLt, border: `1px solid ${C.dan}`, borderRadius: 10, padding: '12px 16px', marginBottom: 14, color: C.danDk, fontSize: 13 }}>
+          ⚠️ {error}
+        </div>
+      )}
+
       <div style={{ ...S.card, marginBottom: 14 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-          <div style={{ fontWeight: 700, fontSize: 15 }}>Caregiver access</div>
+          <div style={{ fontWeight: 700, fontSize: 15 }}>My linked caregiver</div>
           <button onClick={() => setShowForm(!showForm)} style={{ ...S.btnPrimary(C.pri), fontSize: 12 }}>
             <i className="ti ti-user-plus" aria-hidden="true" /> {showForm ? 'Cancel' : 'Link Caregiver'}
           </button>
@@ -569,51 +601,83 @@ function PatientCaregiver({ user }) {
 
         {showForm && (
           <div style={{ background: '#f8fffe', border: `1px solid ${C.priXl}`, borderRadius: 10, padding: '14px 16px', marginBottom: 14 }}>
-            <p style={{ fontSize: 13, color: C.mut, marginBottom: 12 }}>Enter the email of your caregiver. They must already have a MediCare caregiver account.</p>
-            {error && <div style={{ color: C.dan, fontSize: 12, marginBottom: 10, background: C.danLt, padding: '8px 12px', borderRadius: 7 }}>⚠️ {error}</div>}
+            <p style={{ fontSize: 13, color: C.mut, marginBottom: 12 }}>
+              Enter the real email address of the caregiver account you want to link.
+            </p>
+
             <div style={{ marginBottom: 10 }}>
               <label style={{ fontSize: 12, fontWeight: 600, color: C.mut, display: 'block', marginBottom: 5 }}>Caregiver email address *</label>
-              <input style={{ ...S.input }} placeholder="caregiver@email.com" value={form.caregiver_email} onChange={e => setForm(p => ({ ...p, caregiver_email: e.target.value }))} />
+              <input
+                style={{ ...S.input }}
+                placeholder="caregiver@email.com"
+                value={form.caregiver_email}
+                onChange={e => setForm(p => ({ ...p, caregiver_email: e.target.value }))}
+              />
             </div>
+
             <div style={{ marginBottom: 14 }}>
               <label style={{ fontSize: 12, fontWeight: 600, color: C.mut, display: 'block', marginBottom: 5 }}>Relationship</label>
-              <input style={{ ...S.input }} placeholder="e.g. Daughter, Son, Nurse, Doctor" value={form.relationship} onChange={e => setForm(p => ({ ...p, relationship: e.target.value }))} />
+              <input
+                style={{ ...S.input }}
+                placeholder="e.g. Brother, Nurse, Friend"
+                value={form.relationship}
+                onChange={e => setForm(p => ({ ...p, relationship: e.target.value }))}
+              />
             </div>
+
             <button onClick={linkCaregiver} disabled={linking} style={{ ...S.btnPrimary(C.pri) }}>
               {linking ? 'Linking...' : 'Link Caregiver'}
             </button>
           </div>
         )}
 
-        <div style={{ background: C.priXl, borderRadius: 10, padding: '14px 16px', fontSize: 13, color: C.priDk }}>
-          <div style={{ fontWeight: 600, marginBottom: 6 }}>ℹ️ How it works:</div>
-          <div>1. Your caregiver registers at this website as a "Caregiver"</div>
-          <div>2. They go to their dashboard → "Link Patient" → enter your email</div>
-          <div>3. They can then see your medications and get missed dose alerts</div>
-        </div>
-
-        <div style={{ fontWeight: 600, fontSize: 12, color: C.mut, letterSpacing: 0.5, margin: '16px 0 10px' }}>WHAT YOUR CAREGIVER CAN SEE</div>
-        {["Today's medication schedule","Missed dose alerts in real-time","Weekly adherence reports","Your medication list & dosages"].map(item => (
-          <div key={item} style={{ display: 'flex', gap: 9, alignItems: 'center', padding: '6px 0', fontSize: 13, borderBottom: `1px solid #f5f5f5` }}>
-            <i className="ti ti-circle-check" style={{ color: C.suc, fontSize: 14, flexShrink: 0 }} aria-hidden="true" />{item}
+        {caregivers.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: 24, color: C.mut, fontSize: 13 }}>
+            No caregiver linked yet
           </div>
-        ))}
+        ) : (
+          caregivers.map(c => (
+            <div key={c.id} style={{ padding: 14, border: `1px solid ${C.brd}`, borderRadius: 12, marginBottom: 10, background: '#fff', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ width: 42, height: 42, borderRadius: '50%', background: C.priXl, color: C.priDk, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700 }}>
+                {c.full_name?.charAt(0)?.toUpperCase() || 'C'}
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 700, fontSize: 15 }}>{c.full_name}</div>
+                <div style={{ fontSize: 12, color: C.mut }}>{c.email}</div>
+                <div style={{ fontSize: 12, color: C.mut }}>{c.phone || 'No phone provided'}</div>
+                <div style={{ fontSize: 12, color: C.pri, marginTop: 4 }}>
+                  Relationship: {c.relationship || 'Caregiver'}
+                </div>
+              </div>
+              <span style={{ background: C.sucLt, color: C.suc, border: `1px solid ${C.sucMd}`, borderRadius: 20, padding: '4px 10px', fontSize: 11, fontWeight: 700 }}>
+                Active
+              </span>
+            </div>
+          ))
+        )}
       </div>
 
       <div style={{ ...S.card }}>
-        <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 14 }}>Recent notifications & alerts</div>
+        <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 14 }}>
+          Caregiver notifications & alerts
+        </div>
+
         {alerts.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '20px', color: C.mut, fontSize: 13 }}>No alerts yet</div>
-        ) : alerts.slice(0, 10).map((n) => (
-          <div key={n.id} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid #f5f5f5` }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: n.type==='missed'?C.dan:n.type==='reminder'?C.suc:C.infMd, marginTop: 5, flexShrink: 0 }} />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 13, fontWeight: n.is_read ? 400 : 600 }}>{n.title}</div>
-              <div style={{ fontSize: 11, color: C.mut }}>{n.message}</div>
-              <div style={{ fontSize: 10, color: C.mut, marginTop: 2 }}>{timeAgo(n.sent_at)}</div>
-            </div>
+          <div style={{ textAlign: 'center', padding: 20, color: C.mut, fontSize: 13 }}>
+            No caregiver alerts yet
           </div>
-        ))}
+        ) : (
+          alerts.slice(0, 10).map(n => (
+            <div key={n.id} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', padding: '10px 0', borderBottom: `1px solid #f5f5f5` }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: C.dan, marginTop: 5, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: n.is_read ? 500 : 700 }}>{n.title || 'Caregiver Alert'}</div>
+                <div style={{ fontSize: 11, color: C.mut }}>{n.message}</div>
+                <div style={{ fontSize: 10, color: C.mut, marginTop: 2 }}>{timeAgo(n.sent_at)}</div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
